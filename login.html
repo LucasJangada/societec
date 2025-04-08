@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Societec</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: rgb(61, 75, 88);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .login-box {
+      background-color: #fff;
+      color: #000;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      width: 300px;
+    }
+
+    .login-box h2 {
+      margin-top: 0;
+      color: rgb(61, 75, 88);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .switch {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .switch button {
+      flex: 1;
+      background-color: rgb(152, 152, 152);
+      color: rgb(255, 255, 255);
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .switch button.active {
+      background-color: #ac0400;
+    }
+
+    .visitor-btn {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #444;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .submit-btn {
+      background-color: #ac0400;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login Societec</h2>
+
+    <div class="switch">
+      <button id="alunoBtn" class="active">Aluno</button>
+      <button id="professorBtn">Professor</button>
+    </div>
+
+    <form id="loginForm">
+      <div id="field-nome">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" required />
+      </div>
+      <div id="field-email" class="hidden">
+        <label for="email">Email</label>
+        <input type="email" id="email" />
+      </div>
+      <div id="field-rm">
+        <label for="rm">RM</label>
+        <input type="text" id="rm" />
+      </div>
+      <div>
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" required />
+      </div>
+      <button type="submit" class="submit-btn">Entrar</button>
+    </form>
+
+    <div class="visitor-btn" onclick="entrarComoVisitante()">
+      Entrar como visitante
+    </div>
+  </div>
+
+  <script>
+    const alunoBtn = document.getElementById("alunoBtn");
+    const professorBtn = document.getElementById("professorBtn");
+    const emailField = document.getElementById("field-email");
+    const rmField = document.getElementById("field-rm");
+    const form = document.getElementById("loginForm");
+
+    let tipoUsuario = "aluno";
+
+    alunoBtn.addEventListener("click", () => {
+      tipoUsuario = "aluno";
+      alunoBtn.classList.add("active");
+      professorBtn.classList.remove("active");
+      emailField.classList.add("hidden");
+      rmField.classList.remove("hidden");
+    });
+
+    professorBtn.addEventListener("click", () => {
+      tipoUsuario = "professor";
+      professorBtn.classList.add("active");
+      alunoBtn.classList.remove("active");
+      emailField.classList.remove("hidden");
+      rmField.classList.add("hidden");
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const nome = document.getElementById("nome").value;
+      localStorage.setItem("userName", nome);
+      window.location.href = "professor.html";
+    });
+
+    function entrarComoVisitante() {
+      const opcoes = [
+        '1º ADM', '2º ADM', '3º ADM',
+        '1º DS', '2º DS', '3º DS',
+        '1º MKT', '2º MKT', '3º MKT',
+        '1º ELET', '2º ELET', '3º ELET'
+      ];
+
+      const select = document.createElement('select');
+      select.style.width = '100%';
+      select.style.padding = '10px';
+      select.style.marginTop = '10px';
+
+      const optionDefault = document.createElement('option');
+      optionDefault.text = 'Escolha uma sala';
+      optionDefault.disabled = true;
+      optionDefault.selected = true;
+      select.appendChild(optionDefault);
+
+      opcoes.forEach(sala => {
+        const option = document.createElement('option');
+        option.value = sala;
+        option.textContent = sala;
+        select.appendChild(option);
+      });
+
+      const confirmar = document.createElement('button');
+      confirmar.textContent = 'Confirmar';
+      confirmar.style.marginTop = '10px';
+      confirmar.style.width = '100%';
+      confirmar.style.padding = '10px';
+
+      const container = document.querySelector('.login-box');
+      container.innerHTML = '<h2>Visitar como</h2>';
+      container.appendChild(select);
+      container.appendChild(confirmar);
+
+      confirmar.addEventListener('click', () => {
+        const sala = select.value;
+        if (sala) {
+          localStorage.setItem("userName", `Visitante (${sala})`);
+          window.location.href = "professor.html";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
