@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="bem-vindo.css">
+  <title>Societec - Bem-vindo</title>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <img src="logotrans.png" alt="Logo Societec" />
+    </div>
+    <nav>
+      <a href="#" aria-current="page">Sobre Nós</a>
+      <a href="#" aria-current="page">Contato</a>
+      <a href="#" aria-current="page">Ajuda</a>
+    </nav>
+  </header>
+
+
+  <main>
+    <img src="background.jpg" class="image-side" aria-hidden="true">
+
+    <section class="text-side" role="main">
+      <h1>Bem-vindo ao Societec</h1>
+      <p>Uma plataforma feita por alunos da ETEC para facilitar a comunicação entre professores.</p>
+      <button id="loginBtn" aria-label="Ir para página de login">Entrar</button>
+    </section> 
+  </main>     
+  <script>
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      window.location.href = 'login.html';
+    });
+  </script>
+
+</body>
+</html>
